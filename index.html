@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pizza Order Form</title>
+		<link rel="stylesheet" href="index.css" />
+	</head>
+	<body>
+		<!-- Top Bar -->
+		<header class="top-bar">
+			<div class="logo">Schenectady High & JG Pizza Ordering</div>
+			<nav class="nav-menu">
+				<a href="#">Order</a>
+			</nav>
+		</header>
+
+		<div class="container">
+			<img src="dominos.png" width="100px" />
+
+			<h2>Order Your Pizza</h2>
+			<form id="pizzaOrderForm">
+				<!-- Customer Details -->
+				<h3>Customer Information</h3>
+				<label for="customerName">Full Name:</label>
+				<input type="text" id="customerName" name="customerName" />
+
+				<label for="customerPhone">Phone Number:</label>
+				<input type="tel" id="customerPhone" name="customerPhone" />
+
+				<label for="customerEmail">Email:</label>
+				<input type="email" id="customerEmail" name="customerEmail" />
+
+				<!-- Address Fields -->
+				<h3>Delivery Address</h3>
+				<label for="addressLine1">Address Line 1:</label>
+				<input type="text" id="addressLine1" name="customerAddress[line1]" />
+
+				<label for="addressLine2">Address Line 2:</label>
+				<input type="text" id="addressLine2" name="customerAddress[line2]" />
+
+				<label for="city">City:</label>
+				<input type="text" id="city" name="customerAddress[city]" />
+
+				<label for="state">State:</label>
+				<input type="text" id="state" name="customerAddress[state]" />
+
+				<label for="postalCode">Zip Code:</label>
+				<input type="text" id="postalCode" name="customerAddress[postalCode]" />
+
+				<!-- Pizza Selection -->
+				<h3>Pizza Selection</h3>
+				<label for="pizzaSize">Size:</label>
+				<select id="pizzaSize" name="pizzaSize">
+					<option value="SMALL">Small</option>
+					<option value="MEDIUM">Medium</option>
+					<option value="LARGE">Large</option>
+				</select>
+
+				<label for="pizzaCrust">Crust:</label>
+				<select id="pizzaCrust" name="pizzaCrust">
+					<option value="HAND_TOSSED">Hand Tossed</option>
+					<option value="THIN_CRUST">Thin Crust</option>
+					<option value="DEEP_DISH">Deep Dish</option>
+				</select>
+
+				<!-- Toppings -->
+				<h3>Toppings</h3>
+				<label>
+					<input type="checkbox" name="toppings" value="PEPPERONI" />
+					Pepperoni
+				</label>
+				<label>
+					<input type="checkbox" name="toppings" value="SAUSAGE" />
+					Sausage
+				</label>
+				<label>
+					<input type="checkbox" name="toppings" value="MUSHROOMS" />
+					Mushrooms
+				</label>
+				<label>
+					<input type="checkbox" name="toppings" value="ONIONS" />
+					Onions
+				</label>
+				<label>
+					<input type="checkbox" name="toppings" value="EXTRA_CHEESE" />
+					Extra Cheese
+				</label>
+				<label>
+					<input type="checkbox" name="toppings" value="OLIVES" />
+					Olives
+				</label>
+
+				<!-- Payment Details -->
+				<h3>Payment Information</h3>
+				<label for="cardNumber">Credit Card Number:</label>
+				<input
+					type="text"
+					id="cardNumber"
+					name="paymentDetails[number]"
+					pattern="\d{4}-\d{4}-\d{4}-\d{4}"
+					placeholder="1234-5678-9101-1121"
+				/>
+
+				<label for="expiration">Expiration Date (MM/YY):</label>
+				<input
+					type="text"
+					id="expiration"
+					name="paymentDetails[expiration]"
+					pattern="\d{2}/\d{2}"
+					placeholder="MM/YY"
+				/>
+
+				<label for="securityCode">CVV:</label>
+				<input
+					type="text"
+					id="securityCode"
+					name="paymentDetails[securityCode]"
+					pattern="\d{3}"
+					placeholder="123"
+				/>
+
+				<label for="billingZip">Billing Zip Code:</label>
+				<input
+					type="text"
+					id="billingZip"
+					name="paymentDetails[postalCode]"
+					pattern="\d{5}"
+				/>
+
+				<label for="tipAmount">Tip Amount:</label>
+				<input
+					type="number"
+					id="tipAmount"
+					name="paymentDetails[tip]"
+					min="0"
+					step="0.01"
+					placeholder="0.00"
+				/>
+
+				<button type="submit" class="submit-btn">
+					<span class="spinner hidden"></span>
+					<span class="button-text">Place Order</span>
+				</button>
+			</form>
+		</div>
+
+		<!-- Modal -->
+		<div id="orderModal" class="modal hidden">
+			<div class="modal-content">
+				<img src="dominos.png" />
+				<h2>Your Pizza Is On The Way!</h2>
+				<p>
+					Your order has been successfully placed. It should arrive to your
+					provided address soon :)
+				</p>
+				<button id="closeModal" class="close-modal">Close</button>
+			</div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const form = document.getElementById("pizzaOrderForm");
+				const submitBtn = document.querySelector(".submit-btn");
+				const spinner = document.querySelector(".spinner");
+				const buttonText = document.querySelector(".button-text");
+				const modal = document.getElementById("orderModal");
+				const closeModal = document.getElementById("closeModal");
+
+				// Handle form submission
+				form.addEventListener("submit", (event) => {
+					event.preventDefault(); // Prevent actual form submission
+
+					// Show spinner and disable button
+					spinner.classList.remove("hidden");
+					buttonText.classList.add("hidden");
+					submitBtn.disabled = true;
+
+					// Simulate a delay (like placing an order)
+					setTimeout(() => {
+						// Hide spinner and re-enable button
+						spinner.classList.add("hidden");
+						buttonText.classList.remove("hidden");
+						submitBtn.disabled = false;
+
+						// Show modal
+						modal.classList.remove("hidden");
+					}, 2000); // Simulate a 2-second delay for demo purposes
+				});
+
+				// Close modal when "Close" button is clicked
+				closeModal.addEventListener("click", () => {
+					modal.classList.add("hidden");
+				});
+			});
+		</script>
+	</body>
+</html>
